@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>تمرين الإيواء – الكلية التقنية التطبيقية للبنات</title>
+<style>
+:root{--bg:#f4f6f8;--card:#fff;--tx:#14202b;--mu:#5b6b78;--pr:#0f766e;--ok:#15803d;--no:#b91c1c;--bd:#d7dee4;--warn:#b45309;--gold:#a16207;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f161c;--card:#18222b;--tx:#eaf0f4;--mu:#9fb0bc;--pr:#2dd4bf;--ok:#4ade80;--no:#f87171;--bd:#2b3945;--warn:#fbbf24;--gold:#fbbf24;color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;line-height:1.7}
+main{max-width:480px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:18px;margin-bottom:12px}
+h1{font-size:22px;margin:0 0 8px}h2{font-size:18px;margin:0 0 6px}
+p{margin:0 0 10px;color:var(--mu)}
+button,input{font:inherit}
+button{cursor:pointer}
+input{width:100%;padding:12px 14px;border-radius:14px;border:2px solid var(--bd);background:var(--bg);color:var(--tx);margin:6px 0 12px}
+.btn{width:100%;background:var(--pr);color:#fff;border:0;border-radius:14px;padding:14px;font-weight:700;font-size:16px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn{color:#06201d}}
+.phone{background:linear-gradient(160deg,#1e293b,#0f172a);color:#fff;border-radius:28px;padding:28px 18px;text-align:center;min-height:340px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.clock{font-size:64px;font-weight:300;line-height:1.1;direction:ltr}
+.date{color:#cbd5e1;font-size:14px;margin-bottom:26px}
+.notif{width:100%;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:16px;padding:12px 14px;text-align:right;color:#fff;display:none}
+.notif.show{display:block;animation:buzz .5s 4}
+.notif b{color:#fca5a5}
+@keyframes buzz{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.hint{font-size:13px;color:#cbd5e1;margin-top:auto}
+.top{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--mu);margin-bottom:8px}
+.bar{height:8px;background:var(--bd);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.bar i{display:block;height:100%;background:var(--warn);width:100%}
+.scene{font-size:44px;text-align:center;margin-bottom:4px}
+.opt{display:block;width:100%;text-align:right;background:var(--card);color:var(--tx);border:2px solid var(--bd);border-radius:14px;padding:12px 14px;margin-bottom:8px}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:var(--ok)}.opt.no{border-color:var(--no)}
+.fb{padding:12px 14px;border-radius:14px;margin:10px 0;border:1px solid var(--bd);display:none}
+.fb.show{display:block}.fb.g{border-color:var(--ok)}.fb.b{border-color:var(--no)}
+.rules{padding:0;margin:0;list-style:none}.rules li{padding:6px 0;border-bottom:1px dashed var(--bd)}
+.big{font-size:56px;text-align:center}
+.cert{border:4px double var(--gold);border-radius:16px;padding:22px 14px;text-align:center;margin:14px 0;background:var(--card)}
+.cert .nm{font-size:26px;font-weight:800;color:var(--pr);margin:6px 0}
+.cert small{color:var(--mu)}
+.hide{display:none}
+</style>
+</head>
+<body>
+<main>
+<section id="s0">
+  <div class="card" id="nmCard">
+    <h1>🛡️ تمرين الإيواء</h1>
+    <p>تجربة تفاعلية لطالبات الكلية التقنية التطبيقية للبنات بالرياض. ستصلك رسالة تنبيه على جوالك، ثم تواجهين مواقف قصيرة وعلى كل موقف مؤقّت. اختاري المكان الأكثر أماناً.</p>
+    <label for="nm">اكتبي اسمك للبدء</label>
+    <input id="nm" maxlength="40" placeholder="اسمك" autocomplete="off">
+    <button class="btn" id="go">ابدئي التمرين</button>
+    <p style="margin:10px 0 0;font-size:13px">يفضّل رفع صوت الجوال لتعيشي التجربة كاملة 🔊</p>
+  </div>
+  <div id="phoneWrap" class="hide">
+    <div class="phone">
+      <div class="clock" id="clk">10:42</div>
+      <div class="date">اليوم</div>
+      <button class="notif" id="notif" aria-label="فتح التنبيه">
+        <small>⚠️ تنبيه الدفاع المدني · الآن</small><br>
+        <b id="nn"></b> توجهي فوراً إلى أقرب موقع آمن.
+      </button>
+      <div class="hint" id="hint">انتظري… جوالك قد يهتز في أي لحظة</div>
+    </div>
+  </div>
+</section>
+
+<section id="s1" class="hide">
+  <div class="top"><span id="cnt"></span><span id="sc"></span></div>
+  <div class="bar"><i id="tm"></i></div>
+  <div class="card">
+    <div class="scene" id="ic"></div>
+    <h2 id="ti"></h2>
+    <p id="ds"></p>
+    <div id="ops"></div>
+    <div class="fb" id="fb"></div>
+    <button class="btn hide" id="nx">التالي</button>
+  </div>
+</section>
+
+<section id="s2" class="hide">
+  <div class="card">
+    <div class="big" id="bd"></div>
+    <h1 id="rt" style="text-align:center"></h1>
+    <p id="rs" style="text-align:center"></p>
+    <div class="cert">
+      <small>شهادة إتمام تمرين الإيواء</small>
+      <div>تشهد الكلية التقنية التطبيقية للبنات – الرياض بأن</div>
+      <div class="nm" id="cn"></div>
+      <div>أتمّت تمرين الإيواء التفاعلي بنتيجة <b id="cs"></b></div>
+      <small>شهادة توعوية تحفيزية · <span id="cd"></span></small>
+    </div>
+    <p style="text-align:center;font-size:13px">خذي لقطة شاشة للشهادة وشاركيها مع زميلاتك 📸</p>
+    <h2>قواعد الإيواء الآمن</h2>
+    <ul class="rules">
+      <li>🪟 ابتعدي عن الزجاج والنوافذ والواجهات.</li>
+      <li>🚪 ابتعدي عن الأبواب ومناطق الازدحام عندها.</li>
+      <li>🏛️ اختاري موقعاً تحت سقف آمن وجدار داخلي.</li>
+      <li>🌳 في الساحة الخارجية: توجهي إلى أقرب موقع آمن.</li>
+      <li>🚗 في المواقف: ابقي في السيارة وانحني بعيداً عن النوافذ، أو توجهي لأقرب غرفة آمنة.</li>
+      <li>📵 لا تستخدمي المصعد، واتبعي التعليمات.</li>
+    </ul>
+    <button class="btn" id="rp" style="margin-top:14px">إعادة التجربة</button>
+  </div>
+</section>
+</main>
+<script>
+const Q=[
+{ic:"🏫",t:"أنتِ في قاعة محاضرات",d:"القاعة فيها نوافذ زجاجية كبيرة وباب رئيسي. وصل التنبيه الآن.",o:["الوقوف بجانب النافذة لمراقبة الوضع","الوقوف عند الباب للخروج بسرعة","ركن داخلي من القاعة بعيداً عن الزجاج والباب","الجلوس في منتصف القاعة تحت الإنارة المعلّقة"],c:2,w:"الركن الداخلي يبعدك عن تطاير الزجاج وعن ازدحام الباب. وتجنّبي الإنارة المعلّقة لأنها قد تسقط."},
+{ic:"🚶‍♀️",t:"أنتِ في الممر",d:"على جانب الممر باب زجاجي للمدخل، وعلى الجانب الآخر جدار داخلي صلب.",o:["قرب الباب الزجاجي لترى ما يحدث","عند المصعد لتنزلي بسرعة","الوقوف في وسط الممر","جانب الجدار الداخلي الصلب بعيداً عن الزجاج"],c:3,w:"الجدار الداخلي الصلب أأمن من الزجاج، والمصعد ممنوع وقت الخطر."},
+{ic:"🌤️",t:"أنتِ في الساحة الخارجية",d:"وصلك التنبيه وأنتِ في الساحة. أمامك واجهة زجاجية، ولوحة معلّقة، ومبنى فيه ممر داخلي آمن.",o:["الوقوف تحت اللوحة المعلقة","التوجه إلى أقرب موقع آمن داخل المبنى بعيداً عن الزجاج","الاحتماء بجانب الواجهة الزجاجية","البقاء في الساحة لتصوير الموقف"],c:1,w:"في الخارج لا تبقي مكانك: توجهي إلى أقرب موقع آمن، وابتعدي عن الزجاج والأشياء المعلّقة."},
+{ic:"🍽️",t:"أنتِ في المطعم",d:"المطعم له باب زجاجي، وبداخله حمام بجدران صلبة وبلا نوافذ زجاجية.",o:["الوقوف قرب الباب الزجاجي","الجلوس عند مدخل المطعم","التوجه إلى الحمام","الوقوف تحت الإنارة المعلّقة"],c:2,w:"الحمام غرفة داخلية بجدران صلبة وبعيدة عن الزجاج، فهو موقع إيواء مناسب."},
+{ic:"🪜",t:"أنتِ قرب الدرج",d:"الدرج مزدحم، والمصعد قريب، وبجانبك قاعة آمنة بعيدة عن الزجاج.",o:["ركوب المصعد لتصلي أسرع","الركض على الدرج وسط الزحام","التوجه إلى القاعة الآمنة والالتزام بالتعليمات","الوقوف عند باب الدرج الزجاجي"],c:2,w:"الركض والزحام وراء الإصابات، وتجنّبي المصعد والزجاج، واتبعي التعليمات."},
+{ic:"🚗",t:"أنتِ في السيارة بالمواقف",d:"وصلك التنبيه وأنتِ داخل سيارتك، ولا توجد غرفة آمنة قريبة منك.",o:["الجلوس بجانب نافذة السيارة لمراقبة الوضع","البقاء في السيارة وإنزال جسمك بعيداً عن النوافذ","النزول والركض بين السيارات","الوقوف بجانب السيارة تحت لوحة معلّقة"],c:1,w:"السيارة تحميك من الأجسام المتطايرة، لكن ابتعدي عن زجاجها بإنزال جسمك."},
+{ic:"🛡️",t:"أنتِ في المواقف وغرفة الحارس قريبة",d:"أنتِ بجانب سيارتك، وغرفة الحارس الآمنة على بعد خطوات قليلة.",o:["الذهاب إلى غرفة الحارس الآمنة","الركض إلى أبعد موقف","الوقوف عند البوابة الزجاجية","الاحتماء تحت مظلة المواقف"],c:0,w:"إذا كانت غرفة آمنة قريبة منك فتوجهي لها، وتجنّبي الزجاج والمظلات والأماكن المكشوفة."}
+];
+let i=0,s=0,tmr,left=0,nameV="";const T=15;
+const $=id=>document.getElementById(id);
+const show=n=>["s0","s1","s2"].forEach((k,j)=>$(k).classList.toggle("hide",j!==n));
+let AC=null;
+function siren(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);o.type="square";g.gain.value=.12;const t=AC.currentTime;for(let k=0;k<6;k++)o.frequency.setValueAtTime(k%2?660:880,t+k*.35);o.start(t);o.stop(t+2.1)}catch(e){}}
+function buzz(p){try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}}
+function tick(){$("clk").textContent=new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}
+tick();setInterval(tick,30000);
+function startPhone(){
+  $("nmCard").classList.add("hide");$("phoneWrap").classList.remove("hide");
+  $("notif").classList.remove("show");$("hint").textContent="انتظري… جوالك قد يهتز في أي لحظة";
+  $("nn").textContent=(nameV?nameV+"، ":"")+"خطر في المنطقة!";
+  setTimeout(()=>{$("notif").classList.add("show");$("hint").textContent="اضغطي على التنبيه لفتحه";siren();buzz([300,150,300,150,300,150,300])},2500);
+}
+$("go").onclick=()=>{nameV=$("nm").value.trim();try{AC=AC||new (window.AudioContext||window.webkitAudioContext)()}catch(e){}startPhone()};
+$("notif").onclick=()=>{i=0;s=0;show(1);load()};
+function shuffle(a){for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a}
+let cur=null;
+function load(){
+  const q=Q[i];
+  $("cnt").textContent="الموقف "+(i+1)+" من "+Q.length;
+  $("sc").textContent="النقاط: "+s;
+  $("ic").textContent=q.ic;$("ti").textContent=q.t;$("ds").textContent=q.d;
+  $("fb").className="fb";$("nx").classList.add("hide");
+  cur=shuffle(q.o.map((x,k)=>({x,r:k===q.c})));
+  const ops=$("ops");ops.innerHTML="";
+  cur.forEach((m,k)=>{const b=document.createElement("button");b.className="opt";b.textContent=m.x;b.onclick=()=>pick(k);ops.appendChild(b)});
+  left=T;$("tm").style.width="100%";clearInterval(tmr);
+  tmr=setInterval(()=>{left-=.1;$("tm").style.width=Math.max(left/T*100,0)+"%";if(left<=0)pick(-1)},100);
+}
+function pick(k){
+  clearInterval(tmr);
+  const q=Q[i],bs=[...document.querySelectorAll(".opt")];
+  bs.forEach((b,j)=>{b.disabled=true;if(cur[j].r)b.classList.add("ok");else if(j===k)b.classList.add("no")});
+  const good=k>=0&&cur[k].r;if(good)s++;else buzz([400]);
+  const f=$("fb");f.className="fb show "+(good?"g":"b");
+  f.textContent=(k===-1?"⏱️ انتهى الوقت. ":good?"✅ اختيار صحيح. ":"❌ ليس الأفضل. ")+q.w;
+  $("sc").textContent="النقاط: "+s;
+  const n=$("nx");n.textContent=i===Q.length-1?"عرض النتيجة":"التالي";n.classList.remove("hide");
+}
+$("nx").onclick=()=>{i++;if(i>=Q.length)end();else load()};
+function end(){
+  show(2);
+  const r=s/Q.length;
+  $("bd").textContent=r>=.8?"🏅":r>=.5?"👍":"📘";
+  $("rt").textContent=r>=.8?"أنتِ جاهزة للإيواء!":r>=.5?"أداء جيد، وتبقى القليل":"حاولي مرة أخرى";
+  $("rs").textContent="أجبتِ بشكل صحيح على "+s+" من "+Q.length+" مواقف.";
+  $("cn").textContent=nameV||"المتدربة";
+  $("cs").textContent=s+" / "+Q.length;
+  $("cd").textContent=new Date().toLocaleDateString("ar-SA");
+}
+$("rp").onclick=()=>{show(0);startPhone()};
+</script>
+</body>
+</html>
